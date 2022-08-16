@@ -1,0 +1,28 @@
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        LinkedList<int[]> list = new LinkedList<>();
+        Arrays.sort(people, (int[] a, int[] b) -> a[1] - b[1]);
+        int[] tmp = {people[0][0], people[0][1]};
+        list.add(tmp);
+        for (int i = 1; i < people.length; i++){
+            int j = 0;
+            int count = 0;
+            int index = 0;
+            while (j < list.size() && count <= people[i][1]){
+                if (list.get(j)[0] >= people[i][0]){
+                    count++;
+                }
+                j++;
+            }
+            if (count > people[i][1]){
+                index = j - 1;
+            }else if (count == people[i][1] && j == list.size()){
+                index = j;
+            }
+            int[] tmpp = {people[i][0], people[i][1]};
+            list.add(index, tmpp);
+        }
+        
+        return list.toArray(new int[people.length][2]);
+    }
+}
